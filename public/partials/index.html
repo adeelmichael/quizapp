@@ -1,0 +1,179 @@
+<style>
+    .menus{
+
+    }
+
+    .menus a{
+        color: #FFF;
+        padding: 5px;
+    }
+</style>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    <script src= "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+</head>
+<hr>
+<div class="row">
+    <div class="col-md-6 menus">
+        <p>Welcome!: {{user.name}}</p>
+        <a class="btn btn-primary btn-sm" href="/">Home</a>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Add Question</button>
+        <a type="button" class="btn btn-primary btn-sm" href="#!story">Add Story</a>
+    </div>
+<div class="col-md-6">
+    <button type="button" class="btn btn-info" ng-click="logout()">Logout!</button>
+</div>
+</div>
+
+<hr>
+
+<div class="alert alert-success" role="alert" ng-if="message.message">
+    {{message.message}}
+</div>
+
+<table id="example" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Question</th>
+        <th>OptionA</th>
+        <th>OptionB</th>
+        <th>OptionC</th>
+        <th>OptionD</th>
+        <th>Right Answer</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="ques in question">
+        <td>{{ques.question}}</td>
+        <td>{{ques.optionA}}</td>
+        <td>{{ques.optionB}}</td>
+        <td>{{ques.optionC}}</td>
+        <td>{{ques.optionD}}</td>
+        <td>{{ques.correctOption}}</td>
+        <td>
+            <button type="button" class="btn btn-info" ng-click="load(ques.id)">Edit</button>
+            <button type="button" class="btn btn-danger" ng-click="destroy(ques.id)">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please add your question here!</h4>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-12">
+                    <div class="form-group">
+                        <label for="addQuestion">Question:</label>
+                        <input type="text" class="form-control" id="addQuestion" ng-model="addQuestion" aria-describedby="questionHelp" placeholder="Enter question">
+                        <small id="questionHelp" class="form-text text-muted">Please enter your question here.</small>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="optionA">Option A:</label>
+                            <input type="text" class="form-control" id="optionA" ng-model="optionA" aria-describedby="optionA" placeholder="Option A">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="optionB">Option B:</label>
+                            <input type="text" class="form-control" id="optionB" ng-model="optionB" aria-describedby="optionB" placeholder="Option B">
+                        </div>
+
+                        <div class="col-md-6 mt-4">
+                            <label for="optionC">Option C:</label>
+                            <input type="text" class="form-control" id="optionC" ng-model="optionC" aria-describedby="optionC" placeholder="Option C">
+                        </div>
+
+                        <div class="col-md-6 mt-4">
+                            <label for="optionD">Option D:</label>
+                            <input type="text" class="form-control" id="optionD" ng-model="optionD" aria-describedby="optionD" placeholder="Option D">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mt-5">
+                        <label for="correctOption">Set Correct Option:</label>
+                        <input type="text" class="form-control" id="correctOption" ng-model="correctOption" aria-describedby="questionHelp" placeholder="Enter Correct Option">
+                    </div>
+
+                    <button class="btn btn-primary mt-5" ng-click="saveQuestion()">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-------------edit model ---->
+<div id="updateBookModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please add your question here!</h4>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label>Question:</label>
+                        <input type="text" class="form-control" ng-model="updateQuestion" aria-describedby="questionHelp" placeholder="Enter question">
+                        <input type="hidden" ng-model="updatedId">
+                        <small id="questionsHelp" class="form-text text-muted">Please enter your question here.</small>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="optionA">Option A:</label>
+                            <input type="text" class="form-control" ng-model="updateoptionA" aria-describedby="optionA" placeholder="Option A">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="optionB">Option B:</label>
+                            <input type="text" class="form-control" ng-model="updateoptionB" aria-describedby="optionB" placeholder="Option B">
+                        </div>
+
+                        <div class="col-md-6 mt-4">
+                            <label for="optionC">Option C:</label>
+                            <input type="text" class="form-control" ng-model="updateoptionC" aria-describedby="optionC" placeholder="Option C">
+                        </div>
+
+                        <div class="col-md-6 mt-4">
+                            <label for="optionD">Option D:</label>
+                            <input type="text" class="form-control" ng-model="updateoptionD" aria-describedby="optionD" placeholder="Option D">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mt-5">
+                        <label for="correctOption">Set Correct Option:</label>
+                        <input type="text" class="form-control" ng-model="updateCorrectOption" aria-describedby="questionHelp" placeholder="Enter Correct Option">
+                    </div>
+
+                    <button class="btn btn-primary mt-5" ng-click="updateques()">Submit</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

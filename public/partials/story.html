@@ -1,0 +1,145 @@
+<style>
+    .menus{
+
+    }
+
+    .menus a{
+        color: #FFF;
+        padding: 5px;
+    }
+</style>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    <script src= "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+</head>
+<hr>
+<div class="row">
+    <div class="col-md-6 menus">
+        <p>Welcome!: {{firstname}}</p>
+        <a class="btn btn-primary btn-sm" href="/">Home</a>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Add Story</button>
+    </div>
+    <div class="col-md-6">
+        <button type="button" class="btn btn-info" ng-click="logout()">Logout!</button>
+    </div>
+</div>
+
+<hr>
+
+<div class="alert alert-success" role="alert" ng-if="message.message">
+    {{message.message}}
+</div>
+
+<table id="example" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Moral</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="story in stories">
+        <td>{{story.title}}</td>
+        <td>{{story.description}}</td>
+        <td>{{story.moral}}</td>
+        <td>
+            <button type="button" class="btn btn-info" ng-click="editStory(story.id)">Edit</button>
+            <button type="button" class="btn btn-danger" ng-click="storydel(story.id)">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please add your story here!</h4>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-12">
+                    <div class="form-group">
+                        <label for="addQuestion">Story Title:</label>
+                        <input type="text" class="form-control" aria-rowspan="20" ng-model="title" aria-describedby="questionHelp" placeholder="Enter question">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="description">Description:</label>
+                            <textarea class="form-control" ng-model="description"></textarea>
+                        </div>
+
+                        <div class="col-md-12 mt-4 mb-4">
+                            <label for="optionD">Moral:</label>
+                            <input type="text" class="form-control" ng-model="moral" aria-describedby="optionD" placeholder="Option D">
+                        </div>
+
+                    </div>
+                    <div class="pull-left">
+                    <button class="btn btn-primary" ng-click="createStory()">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-------------edit model ---->
+<div id="edmyModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update your story here!</h4>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-12">
+                    <div class="form-group">
+                        <label for="addQuestion">Story Title:</label>
+                        <input type="text" class="form-control" id="addQuestion" aria-rowspan="20" ng-model="updateTitle" aria-describedby="questionHelp" placeholder="Enter question">
+                        <input type="hidden" ng-model="updatedId">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="description">Description:</label>
+                            <textarea class="form-control" id="description" ng-model="updateDescription"></textarea>
+                        </div>
+
+                        <div class="col-md-12 mt-4 mb-4">
+                            <label for="optionD">Moral:</label>
+                            <input type="text" class="form-control" id="optionD" ng-model="updateMoral" aria-describedby="optionD" placeholder="Option D">
+                        </div>
+
+                    </div>
+                    <div class="pull-left">
+                        <button class="btn btn-primary" ng-click="updatestory()">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
